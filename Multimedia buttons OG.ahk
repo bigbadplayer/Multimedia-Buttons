@@ -36,8 +36,7 @@ Return
 VolumeToolTip:
 	 Soundget, varVolumeLevel
      varVolumeLevel:= Round(varVolumeLevel)
-     strPercentage:= "%"
-     ToolTip, Master Volume: %varVolumeLevel% %strPercentage%
+     ToolTip, Master Volume: %varVolumeLevel% `%
      SetTimer, RemoveToolTip, -1000
 Return
 
@@ -129,7 +128,7 @@ Return
 
 startMyMenu:
 	strPercentageSign:= "%"
-	Menu, RButtonMenu, Add, Set Window Transparent 25 %strPercentageSign%, SetWindowTransparent25
+	Menu, RButtonMenu, Add, Set Window Transparent 25 `%, SetWindowTransparent25
 	Menu, RButtonMenu, Add, Set Window Transparent 50 %strPercentageSign%, SetWindowTransparent50
 	Menu, RButtonMenu, Add, Set Window Transparent OFF, SetWindowTransparentOff
 	Menu, RButtonMenu, Add,
