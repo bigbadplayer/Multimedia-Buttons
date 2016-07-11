@@ -1,4 +1,4 @@
-﻿/*	"Multimedia Buttons" AUTOHOTKEY scripts
+/*	"Multimedia Buttons" AUTOHOTKEY scripts
 	Gergely Oláh
 	version: v1.13
 	last modified: 2016-07-06
@@ -127,13 +127,15 @@ If (A_PriorHotKey = A_ThisHotKey and A_TimeSincePriorHotkey < 500)
 Return
 
 startMyMenu:
-	strPercentageSign:= "%"
 	Menu, RButtonMenu, Add, Set Window Transparent 25 `%, SetWindowTransparent25
-	Menu, RButtonMenu, Add, Set Window Transparent 50 %strPercentageSign%, SetWindowTransparent50
+	Menu, RButtonMenu, Add, Set Window Transparent 50 `%, SetWindowTransparent50
 	Menu, RButtonMenu, Add, Set Window Transparent OFF, SetWindowTransparentOff
 	Menu, RButtonMenu, Add,
 	Menu, RButtonMenu, Add, Set Window Always On Top ON, SetWindowAlwaysOnTopOn
 	Menu, RButtonMenu, Add, Set Window Always On Top OFF, SetWindowAlwaysOnTopOff
+	Menu, RButtonMenu, Add,
+	Menu, RButtonMenu, Add, Resize Window 1280x720, ResizeWin1280x720
+	Menu, RButtonMenu, Add, Resize Window 1920x1080, ResizeWin1920x1080
 	Menu, RButtonMenu, Show
 	;MsgBox, %A_ThisMenuItem%	;Ez mindenképp lefut
 	Menu, RButtonMenu, DeleteAll
@@ -321,18 +323,18 @@ return
 
 ;(----- Resize window -----)
 
-#!u::ResizeWin(1920,1080)
+ResizeWin1280x720:
+	ResizeWin(1280,720)
+return
+
+ResizeWin1920x1080:
+	ResizeWin(1920,1080)
+return
 
 ;/// ResizeWin Function
-ResizeWin(Width = 0,Height = 0)
+ResizeWin(Width,Height)
 {
 	WinGetPos,X,Y,W,H,A
-	If %Width% = 0
-	Width := W
-
-	If %Height% = 0
-	Height := H
-
 	WinMove,A,,%X%,%Y%,%Width%,%Height%
 }
 Return
