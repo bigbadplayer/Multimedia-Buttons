@@ -185,23 +185,21 @@ return
 :*:,haller::Budapest Haller utca 23-25. C/002
 :*:ogsign`t::Tisztelettel:{Enter}{Enter}Oláh Gergely{Enter}{+}36 70 234-40-24{Enter}olgergely@gmail.com
 
-:*:,ma.::
-	FormatTime, CurrentDateTime,, yyyy.MM.dd.
-	SendInput %CurrentDateTime%
-Return
-
-:*:,ma_::
-	FormatTime, CurrentDateTime,, yyyy_MM_dd
-	SendInput %CurrentDateTime%
-Return
-
-:*:,ma-::
-	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput %CurrentDateTime%
-Return
-
-:*:,ma ::
-	FormatTime, CurrentDateTime,, yyyyMMdd
+#Hotstring EndChars `n `t.-_
+::,ma::
+    if  A_EndChar = -
+    {   varEndChar:= A_EndChar
+    }
+    else if A_EndChar = _
+    {   varEndChar:= A_EndChar        
+    }
+    else if A_EndChar = .
+    {   varEndChar:= A_EndChar    
+    }
+    else{
+        varEndChar:= ""
+    }
+    FormatTime, CurrentDateTime,, yyyy%varEndChar%MM%varEndChar%dd
 	SendInput %CurrentDateTime%
 Return
 
