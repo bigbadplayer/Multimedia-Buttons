@@ -1,6 +1,6 @@
 /*	"Multimedia Buttons" AUTOHOTKEY scripts
 	Gergely Oláh
-	version: v1.13
+	version: v1.14
 	last modified: 2016-07-06
 */
 
