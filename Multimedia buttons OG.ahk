@@ -180,6 +180,8 @@ return
 :*:econtel::{+}36-1-279-0320
 :*:econfax::{+}36-1-279-0321
 :*:ahk`t::AutoHotkey
+:*:,haller::Budapest Haller utca 23-25. C/002
+:*:ogsign`t::Tisztelettel:{Enter}{Enter}Oláh Gergely{Enter}{+}36 70 234-40-24{Enter}olgergely@gmail.com
 
 :*:,ma.::
 	FormatTime, CurrentDateTime,, yyyy.MM.dd.
@@ -199,6 +201,11 @@ Return
 :*:,ma ::
 	FormatTime, CurrentDateTime,, yyyyMMdd
 	SendInput %CurrentDateTime%
+Return
+
+;(----- Key-Remap -----)
+^-::
+	Send, {AppsKey}
 Return
 
 ;////////////////////////////////////////////////////////////
