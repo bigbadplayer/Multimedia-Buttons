@@ -1,26 +1,16 @@
 /*	"Multimedia Buttons" AUTOHOTKEY scripts
 	Gergely Oláh
-	version: v1.14
-	last modified: 2016-07-06
+	version: v1.15
+	last modified: 2016-07-11
 */
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 #SingleInstance Force	; Automatically kill older Instance, and replace it!
+#Persistent	; Run continously
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-#Persistent
-
-;////////////////////////////////////////////////////////////
-;/////////////// Run on Admin Rights
-;////////////////////////////////////////////////////////////
-
-; if not A_IsAdmin
-; {
-   ; Run *RunAs "%A_ScriptFullPath%"  ; Requires v1.0.92.01+
-   ; ExitApp
-; }
 ;////////////////////////////////////////////////////////////
 ;/////////////// Media Buttons
 ;////////////////////////////////////////////////////////////
@@ -87,6 +77,38 @@ Return
 :*?:+-::±
 :*?:,u::µ
 :*:swx`t::solidworks
+:*:ahk`t::AutoHotkey
+
+;(----- Form-Filling -----) 
+:*:go@::gergely.olah@econengineering.com
+:*:big@::bigbadplayer@gmail.com
+:*:olg@::olgergely@gmail.com
+:*?:@econe::@econengineering.com
+:*:ogtel::{+}36 (70) 234 4024
+:*:econtel::{+}36-1-279-0320
+:*:econfax::{+}36-1-279-0321
+:*:,haller::Budapest Haller utca 23-25. C/002
+:*:ogsign`t::Tisztelettel:{Enter}{Enter}Oláh Gergely{Enter}{+}36 70 234-40-24{Enter}olgergely@gmail.com
+
+:*:,ma.::
+	FormatTime, CurrentDateTime,, yyyy.MM.dd.
+	SendInput %CurrentDateTime%
+Return
+
+:*:,ma_::
+	FormatTime, CurrentDateTime,, yyyy_MM_dd
+	SendInput %CurrentDateTime%
+Return
+
+:*:,ma-::
+	FormatTime, CurrentDateTime,, yyyy-MM-dd
+	SendInput %CurrentDateTime%
+Return
+
+:*:,ma ::
+	FormatTime, CurrentDateTime,, yyyyMMdd
+	SendInput %CurrentDateTime%
+Return
 
 ;////////////////////////////////////////////////////////////
 ;/////////////// TextMenu
@@ -169,46 +191,11 @@ SetWindowAlwaysOnTopOn:
 	WinSetTitle, A, , %TempText%
 return
 
-
-;////////////////////////////////////////////////////////////
-;/////////////// Form-Filling
-;////////////////////////////////////////////////////////////
-
-:*:go@::gergely.olah@econengineering.com
-:*:big@::bigbadplayer@gmail.com
-:*:olg@::olgergely@gmail.com
-:*?:@econe::@econengineering.com
-:*:ogtel::{+}36 (70) 234 4024
-:*:econtel::{+}36-1-279-0320
-:*:econfax::{+}36-1-279-0321
-:*:ahk`t::AutoHotkey
-:*:,haller::Budapest Haller utca 23-25. C/002
-:*:ogsign`t::Tisztelettel:{Enter}{Enter}Oláh Gergely{Enter}{+}36 70 234-40-24{Enter}olgergely@gmail.com
-
-:*:,ma.::
-	FormatTime, CurrentDateTime,, yyyy.MM.dd.
-	SendInput %CurrentDateTime%
-Return
-
-:*:,ma_::
-	FormatTime, CurrentDateTime,, yyyy_MM_dd
-	SendInput %CurrentDateTime%
-Return
-
-:*:,ma-::
-	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput %CurrentDateTime%
-Return
-
-:*:,ma ::
-	FormatTime, CurrentDateTime,, yyyyMMdd
-	SendInput %CurrentDateTime%
-Return
-
 ;(----- Key-Remap -----)
 ^-::
+#-::
 	Send, {AppsKey}
-Return
+return
 
 ;////////////////////////////////////////////////////////////
 ;/////////////// Programming / Coding
@@ -276,51 +263,6 @@ Return
 ;/////////////// Window Management
 ;////////////////////////////////////////////////////////////
 
-#-::
-	send, {AppsKey}
-return
-
-
-;	https://autohotkey.com/board/topic/25393-appskeys-a-suite-of-simple-utility-hotkeys/
-
-;            A - Makes the active window "Always On Top".
-;                This will be indicated on it's title bar with a †.
-;      SHIFT A - Makes the active window NOT "Always On Top".
-{
-	AppsKey & a::
-;	If NOT IsWindow(WinExist("A"))
-;	   Return
-	WinGetTitle, TempText, A
-	If GetKeyState("shift")
-	{
-	   WinSet AlwaysOnTop, Off, A
-	   If (SubStr(TempText, 1, 2) = "+ ")
-		  TempText := SubStr(TempText, 3)
-	}
-	else
-	{
-	   WinSet AlwaysOnTop, On, A
-	   If (SubStr(TempText, 1, 2) != "+ ")
-		  TempText := "+ " . TempText ;chr(134)
-	}
-	WinSetTitle, A, , %TempText%
-	Return
-}
-
-;            T - Makes the active window 50% transpartent.
-;      SHIFT T - Makes the active window opaque again.
-{
-	AppsKey & t::
-;	If NOT IsWindow(WinExist("A"))
-;	   Return
-	If GetKeyState("shift")
-	   Winset, Transparent, OFF, A
-	else
-	   Winset, Transparent, 128, A
-	Return
-}
-
-
 ;(----- Resize window -----)
 
 ResizeWin1280x720:
@@ -344,34 +286,76 @@ Return
 ;//////////////////////////////////////////////////////////////////////////////////
 ;//////////////////////////////////////////////////////////////////////////////////
 
-; ; ; ;/// Send Command Key to XMPlayer Function
-; ; ; pushCommandKey(cmdButton, tooltipText)
-	; ; ; {
-	; ; ; WinGet, ActualWindowsID, id, A			;Store Active Window's ID
-	; ; ; WinActivate, ahk_class XMPLAY-MAIN	;Switch to XMPLAY
-	; ; ; WinWaitActive, ahk_class XMPLAY-MAIN, , 1	;Wait for Window activation
-	; ; ; Sleep, 75
-	; ; ; Send, {%cmdButton% down}					;Push Play/Pause
-	; ; ; Tooltip, %tooltipText%						;Turn on Tooltip
-	; ; ; SetTimer, RemoveToolTip, 1000				;Kill tooltip after 1 sec.
-	; ; ; Sleep, 100									;Make sure, XMPlayer get the command
-	; ; ; Send, {%cmdButton% up}
-	; ; ; WinActivate, ahk_id %ActualWindowsID%	;Switch back to Original Window
-	; ; ; }
-; ; ; Return
+/* ;	https://autohotkey.com/board/topic/25393-appskeys-a-suite-of-simple-utility-hotkeys/
+ * 
+ * ;            A - Makes the active window "Always On Top".
+ * ;                This will be indicated on it's title bar with a †.
+ * ;      SHIFT A - Makes the active window NOT "Always On Top".
+ * {
+ * 	AppsKey & a::
+ * ;	If NOT IsWindow(WinExist("A"))
+ * ;	   Return
+ * 	WinGetTitle, TempText, A
+ * 	If GetKeyState("shift")
+ * 	{
+ * 	   WinSet AlwaysOnTop, Off, A
+ * 	   If (SubStr(TempText, 1, 2) = "+ ")
+ * 		  TempText := SubStr(TempText, 3)
+ * 	}
+ * 	else
+ * 	{
+ * 	   WinSet AlwaysOnTop, On, A
+ * 	   If (SubStr(TempText, 1, 2) != "+ ")
+ * 		  TempText := "+ " . TempText ;chr(134)
+ * 	}
+ * 	WinSetTitle, A, , %TempText%
+ * 	Return
+ * }
+ * 
+ * ;            T - Makes the active window 50% transpartent.
+ * ;      SHIFT T - Makes the active window opaque again.
+ * {
+ * 	AppsKey & t::
+ * ;	If NOT IsWindow(WinExist("A"))
+ * ;	   Return
+ * 	If GetKeyState("shift")
+ * 	   Winset, Transparent, OFF, A
+ * 	else
+ * 	   Winset, Transparent, 128, A
+ * 	Return
+ * }
+ */
 
-; ; ; ;(----- XMPlayer Controls -----)
-; ; ; !Pause::
-	; ; ; IfWinExist, ahk_class XMPLAY-MAIN
-	; ; ; pushCommandKey("Pause", "XMPlayer: Play/Pause")
-; ; ; Return
 
-; ; ; !PgUp::
-	; ; ; IfWinExist, ahk_class XMPLAY-MAIN
-	; ; ; pushCommandKey("PgUp", "XMPlayer: Previous Track")
-; ; ; Return
+/* ; ; ; ;/// Send Command Key to XMPlayer Function
+ ; ; ; pushCommandKey(cmdButton, tooltipText)
+ 	; ; ; {
+ 	; ; ; WinGet, ActualWindowsID, id, A			;Store Active Window's ID
+ 	; ; ; WinActivate, ahk_class XMPLAY-MAIN	;Switch to XMPLAY
+ 	; ; ; WinWaitActive, ahk_class XMPLAY-MAIN, , 1	;Wait for Window activation
+ 	; ; ; Sleep, 75
+ 	; ; ; Send, {%cmdButton% down}					;Push Play/Pause
+ 	; ; ; Tooltip, %tooltipText%						;Turn on Tooltip
+ 	; ; ; SetTimer, RemoveToolTip, 1000				;Kill tooltip after 1 sec.
+ 	; ; ; Sleep, 100									;Make sure, XMPlayer get the command
+ 	; ; ; Send, {%cmdButton% up}
+ 	; ; ; WinActivate, ahk_id %ActualWindowsID%	;Switch back to Original Window
+ 	; ; ; }
+ ; ; ; Return
 
-; ; ; !PgDn::
-	; ; ; IfWinExist, ahk_class XMPLAY-MAIN
-	; ; ; pushCommandKey("PgDn", "XMPlayer: Next Track")
-; ; ; Return
+ ; ; ; ;(----- XMPlayer Controls -----)
+ ; ; ; !Pause::
+ 	; ; ; IfWinExist, ahk_class XMPLAY-MAIN
+ 	; ; ; pushCommandKey("Pause", "XMPlayer: Play/Pause")
+ ; ; ; Return
+ 
+ ; ; ; !PgUp::
+ 	; ; ; IfWinExist, ahk_class XMPLAY-MAIN
+ 	; ; ; pushCommandKey("PgUp", "XMPlayer: Previous Track")
+ ; ; ; Return
+ 
+ ; ; ; !PgDn::
+ 	; ; ; IfWinExist, ahk_class XMPLAY-MAIN
+ 	; ; ; pushCommandKey("PgDn", "XMPlayer: Next Track")
+ ; ; ; Return
+*/
